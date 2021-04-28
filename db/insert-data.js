@@ -3,6 +3,7 @@ const db = require("../db/connection.js");
 const {
   unixToSQLDateFormat,
   filterResults,
+  createReviewsRef,
 } = require("./utils/data-manipulation.js");
 
 const insertCategoriesData = (categoriesData) => {
@@ -47,7 +48,9 @@ const insertReviewsAndCommentsData = (reviewsData, commentsData) => {
       review.title,
       review.review_body,
       review.designer,
-      review.review_img_url,
+      review.review_img_url
+        ? review.review_img_url
+        : "https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg",
       review.votes,
       review.category,
       review.owner,
@@ -91,9 +94,11 @@ const insertReviewsAndCommentsData = (reviewsData, commentsData) => {
 };
 
 exports.insertData = (categoriesData, usersData, reviewsData, commentsData) => {
-  insertCategoriesData(categoriesData).then(() => {
-    insertUsersData(usersData).then(() => {
-      insertReviewsAndCommentsData(reviewsData, commentsData);
+  return insertCategoriesData(categoriesData)
+    .then(() => {
+      return insertUsersData(usersData);
+    })
+    .then(() => {
+      return insertReviewsAndCommentsData(reviewsData, commentsData);
     });
-  });
 };

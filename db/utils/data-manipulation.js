@@ -5,14 +5,20 @@
 // func to convert unix timestamp to readble SQL format
 
 exports.unixToSQLDateFormat = (unixTS) => {
-  // const dateObject = new Date(unixTS);
-  // const humanDateFormat = dateObject
-  //   .toISOString()
-  //   .slice(0, 19)
-  //   .replace("T", " ");
-  // return humanDateFormat;
   return new Date(unixTS);
 };
+
+exports.createReviewsRef = (reviews) => {
+  const refArray = reviews.map((review) => {
+    const reviewRef = {};
+    reviewRef.title = review.title;
+    reviewRef.review_id = review.review_id;
+    return reviewRef;
+  });
+  console.log;
+  return refArray;
+};
+// grab only review_id and title
 
 exports.filterResults = (reviews, comments) => {
   let output = [];
@@ -25,3 +31,6 @@ exports.filterResults = (reviews, comments) => {
   });
   return output;
 };
+
+// Refactor this: make func to create lookup
+// use lookup to match review_id to comment
