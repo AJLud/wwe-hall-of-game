@@ -15,7 +15,6 @@ exports.createReviewsRef = (reviews) => {
     reviewRef.review_id = review.review_id;
     return reviewRef;
   });
-  console.log;
   return refArray;
 };
 // grab only review_id and title

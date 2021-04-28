@@ -10,9 +10,7 @@ exports.getReviewByReviewId = (req, res, next) => {
     .then((review) => {
       res.status(200).send({ review });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch(next);
 };
 
 exports.patchReviewVotes = (req, res, next) => {
@@ -26,4 +24,7 @@ exports.getReviews = (req, res, next) => {
   selectReviews().then((reviews) => {
     res.status(200).send({ reviews });
   });
+};
+exports.getCommentsByReviewId = (req, res, next) => {
+  console.log("HELLOOOOO");
 };

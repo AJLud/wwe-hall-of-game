@@ -63,7 +63,24 @@ describe("NCGAMES", () => {
           );
         });
     });
+    test("status: 404, responds with an Error Message NOT FOUND", () => {
+      return request(app)
+        .get("/api/reviews/333")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Not Found!");
+        });
+    });
+    test("status: 400, responds with an Error Message BAD REQUEST", () => {
+      return request(app)
+        .get("/api/reviews/not_an_id")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
   });
+
   describe("3.PATCH/api/reviews/:review_id", () => {
     test("status: 200 responds with an updated object", () => {
       return request(app)
@@ -97,7 +114,9 @@ describe("NCGAMES", () => {
         .then(({ body }) => {
           const { reviews } = body;
           expect(reviews).toBeInstanceOf(Array);
-          expect(reviews[0].review_id).toBeLessThan(reviews[1].review_id);
+          // expect(reviews[0].review_id).toBeLessThan(reviews[1].review_id);
+          expect(reviews).toBeSortedBy(reviews.review_id);
+          expect(reviews.length).toBeGreaterThan(0);
           reviews.forEach((review) => {
             expect(review).toEqual(
               expect.objectContaining({
@@ -117,5 +136,9 @@ describe("NCGAMES", () => {
         });
     });
   });
-  describe("5.GET /api/reviews/:review_id/comments", () => {});
+  // describe("5.GET /api/reviews/:review_id/comments", () => {
+  //   test('"status: 200 respond with an array of comments objects belonging to a specific review id"', () => {
+  //     return request(app).get("/api/reviews/2/comments").expect(200);
+  //   });
+  // });
 });

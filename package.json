@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "bc-nc-games",
   "main": "index.js",
+  "jest": {
+    "setupFilesAfterEnv": ["jest-sorted"]
+  },
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "dev": "nodemon listen.js"
   },
-
-    "setupFilesAfterEnv": ["jest-sorted"],
-  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/northcoders/be-nc-games.git"

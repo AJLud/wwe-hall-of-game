@@ -14,7 +14,9 @@ exports.selectReviewByReviewId = (review_id) => {
       [review_id],
     )
     .then((review) => {
-      return review.rows[0];
+      if (review.rows.length === 0) {
+        return Promise.reject({ status: 404, msg: "Not Found!" });
+      } else return review.rows[0];
     });
 };
 
