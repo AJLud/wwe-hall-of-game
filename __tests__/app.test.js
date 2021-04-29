@@ -338,7 +338,7 @@ describe("NCGAMES", () => {
         });
     });
   });
-  describe("GET/api", () => {
+  describe("7.GET/api", () => {
     test("status: 200, responds with a JSON describing all available endpoints", () => {
       const expectedApi = {
         version: "0.1 ;)",
