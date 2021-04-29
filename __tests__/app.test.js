@@ -249,9 +249,93 @@ describe("NCGAMES", () => {
         });
     });
   });
-  // describe("5.GET /api/reviews/:review_id/comments", () => {
-  //   test('"status: 200 respond with an array of comments objects belonging to a specific review id"', () => {
-  //     return request(app).get("/api/reviews/2/comments").expect(200);
-  //   });
-  // });
+  describe("5.GET /api/reviews/:review_id/comments", () => {
+    test("status: 200 responds with an array of comments objects belonging to a specific review id", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments.length).toBe(3);
+          comments.forEach((comment) => {
+            expect(comment).toEqual(
+              expect.objectContaining({
+                comment_id: expect.any(Number),
+                votes: expect.any(Number),
+                created_at: expect.any(String),
+                author: expect.any(String),
+                body: expect.any(String),
+              }),
+            );
+          });
+        });
+    });
+    test("status: 404, responds with error message not found when passed with a id that is valid but does not exist in the DB", () => {
+      return request(app)
+        .get("/api/reviews/999/comments")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Not Found!");
+        });
+    });
+    test("status: 200, responds with an empty array when category exists in DB but has no Reviews", () => {
+      return request(app)
+        .get("/api/reviews/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments.length).toBe(0);
+        });
+    });
+    test("status: 400, responds with 400 bad request when review_id is of invalid datatype", () => {
+      return request(app)
+        .get("/api/reviews/ur_mum/comments")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
+  });
+  describe("6.POST/api/reviews/review_id/comments", () => {
+    test("status 201:, responds with the posted comment", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({ username: "bainesface", body: "Farming is dead good innit" })
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: 7,
+              votes: 0,
+              created_at: expect.any(String),
+              author: "bainesface",
+              body: "Farming is dead good innit",
+            }),
+          );
+        });
+    });
+    test("status: 400, responds with error Bad Request if username or body is undefined", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({})
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
+    test("status: 400, responds with error Bad Request if the post has additional properties other than username and body", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: "bainesface",
+          body: "Farming is dead good innit",
+          votes: 100,
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
+  });
 });

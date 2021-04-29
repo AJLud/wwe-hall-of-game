@@ -3,6 +3,7 @@ const {
   patchReviewVotes,
   getReviews,
   getCommentsByReviewId,
+  postCommentToReview,
 } = require("../controllers/reviews-controller");
 const reviews = require("../db/data/test-data/reviews");
 
@@ -14,5 +15,8 @@ reviewsRouter
   .get(getReviewByReviewId)
   .patch(patchReviewVotes);
 
-reviewsRouter.route("/:review_id/comments").get(getCommentsByReviewId);
+reviewsRouter
+  .route("/:review_id/comments")
+  .get(getCommentsByReviewId)
+  .post(postCommentToReview);
 module.exports = reviewsRouter;

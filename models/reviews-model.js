@@ -90,3 +90,51 @@ exports.selectReviews = async (
 
   return rows;
 };
+
+exports.selectCommentsByReviewId = async (review_id) => {
+  const comments = await db.query(
+    `
+  SELECT * FROM comments
+  WHERE review_id = $1
+  `,
+    [review_id],
+  );
+  if (comments.rows.length === 0) {
+    const result = await db.query(
+      `SELECT * FROM reviews WHERE review_id = $1;`,
+      [review_id],
+    );
+    if (result.rowCount === 0) {
+      return Promise.reject({ status: 404, msg: "Not Found!" });
+    }
+  }
+  return comments.rows;
+};
+
+exports.insertCommentToReview = async (review_id, postBody) => {
+  const { username, body } = postBody;
+  if (!username || !body) {
+    return Promise.reject({
+      status: 400,
+      msg: "Bad Request!",
+    });
+  }
+  if (Object.entries(postBody).length > 2) {
+    return Promise.reject({
+      status: 400,
+      msg: "Bad Request!",
+    });
+  }
+
+  const postedComment = await db.query(
+    `
+    INSERT INTO comments
+      (author, body, review_id)
+      VALUES
+      ($1,$2,$3)
+      RETURNING*;
+  `,
+    [username, body, review_id],
+  );
+  return postedComment.rows[0];
+};
