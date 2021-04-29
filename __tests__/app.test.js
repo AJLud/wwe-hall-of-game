@@ -297,7 +297,7 @@ describe("NCGAMES", () => {
     });
   });
   describe("6.POST/api/reviews/review_id/comments", () => {
-    test("status 201:, responds with the posted comment", () => {
+    test("status: 201, responds with the posted comment", () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({ username: "bainesface", body: "Farming is dead good innit" })
@@ -335,6 +335,25 @@ describe("NCGAMES", () => {
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad Request!");
+        });
+    });
+  });
+  describe("GET/api", () => {
+    test("status: 200, responds with a JSON describing all available endpoints", () => {
+      const expectedApi = {
+        version: "0.1 ;)",
+        GET: {
+          "categories/": [""],
+          "reviews/": ["review_id", "review_id/comments"],
+        },
+        PATCH: { "reviews/": ["review_id"] },
+        POST: { "reviews/": ["review_id/comments"] },
+      };
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toEqual(expectedApi);
         });
     });
   });
