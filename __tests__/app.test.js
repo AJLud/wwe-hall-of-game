@@ -200,7 +200,7 @@ describe("NCGAMES", () => {
           );
         });
     });
-    test("status: 200, responds with an array of review objects that only have the category: social deduction, key:value pair", () => {
+    test("status: 200, responds with an array of review object that can take a category type as a filter", () => {
       return request(app)
         .get("/api/reviews?category=social deduction")
         .expect(200)
@@ -289,7 +289,7 @@ describe("NCGAMES", () => {
     });
     test("status: 400, responds with 400 bad request when review_id is of invalid datatype", () => {
       return request(app)
-        .get("/api/reviews/ur_mum/comments")
+        .get("/api/reviews/ur_mum /comments")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad Request!");
