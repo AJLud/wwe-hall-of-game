@@ -1,3 +1,5 @@
+const pathsData = require("../endpoints.json");
+
 exports.getApiJSON = () => {
   const apiEndpoints = {
     version: "0.1 ;)",
@@ -12,6 +14,5 @@ exports.getApiJSON = () => {
       "reviews/": ["review_id/comments"],
     },
   };
-  //   const apiEndpointsJSON = JSON.stringify(apiEndpoints);
   return apiEndpoints;
 };

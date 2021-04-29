@@ -17,7 +17,7 @@ afterAll(() => {
   return db.end();
 });
 
-describe("NCGAMES", () => {
+describe("WWE Hall of Game", () => {
   describe("1.GET/api/categories", () => {
     test("status: 200, responds with array of categories objects", () => {
       return request(app)
@@ -206,6 +206,7 @@ describe("NCGAMES", () => {
         .expect(200)
         .then(({ body }) => {
           const { reviews } = body;
+          expect(reviews.length).toBeGreaterThan(0);
           reviews.forEach((review) => {
             expect(review).toEqual(
               expect.objectContaining({
@@ -233,7 +234,7 @@ describe("NCGAMES", () => {
     });
     test("status: 404, responds with not found when category query does not exist in the DB", () => {
       return request(app)
-        .get("/api/reviews?category=space marine fun")
+        .get("/api/reviews?category=space marines")
         .expect(404)
         .then(({ body }) => {
           expect(body.msg).toBe("Not Found!");
@@ -289,7 +290,7 @@ describe("NCGAMES", () => {
     });
     test("status: 400, responds with 400 bad request when review_id is of invalid datatype", () => {
       return request(app)
-        .get("/api/reviews/ur_mum /comments")
+        .get("/api/reviews/this_is_not_an_id/comments")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad Request!");
@@ -315,6 +316,18 @@ describe("NCGAMES", () => {
           );
         });
     });
+    test("status: 400, responds with error Bad Request if the username does not exist in the database", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: "doesntexist",
+          body: "Mr Anderson? How can you write a review if you don't exist",
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
     test("status: 400, responds with error Bad Request if username or body is undefined", () => {
       return request(app)
         .post("/api/reviews/1/comments")
@@ -332,6 +345,15 @@ describe("NCGAMES", () => {
           body: "Farming is dead good innit",
           votes: 100,
         })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad Request!");
+        });
+    });
+    test("status: 400, responds with error Bad Request if the review id does not exist in the DB", () => {
+      return request(app)
+        .post("/api/reviews/999/comments")
+        .send({ username: "bainesface", body: "Farming is dead good innit" })
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("Bad Request!");

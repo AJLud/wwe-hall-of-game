@@ -1,5 +1,4 @@
 const db = require("../db/connection");
-const { sort } = require("../db/data/test-data/users");
 
 // SELECT REVIEWS VIA REVIEW ID - PROMISE CHAIN
 exports.selectReviewByReviewId = (review_id) => {
@@ -21,6 +20,7 @@ exports.selectReviewByReviewId = (review_id) => {
       } else return review.rows[0];
     });
 };
+
 // UPDATE REVIEW VOTES! - PROMISE CHAIN
 exports.updateReviewVotes = (review_id, inc_votes) => {
   if (!inc_votes) {
@@ -47,6 +47,7 @@ exports.updateReviewVotes = (review_id, inc_votes) => {
       return result.rows[0];
     });
 };
+
 // SELECT REVIEWS - REFACTORED INTO AWAIT ASYNC FORMAT
 exports.selectReviews = async (
   sort_by = "review_id",
@@ -78,7 +79,9 @@ exports.selectReviews = async (
   }
   queryStr += `GROUP BY reviews.review_id
   ORDER BY ${sort_by} ${order_by};`;
+
   const { rows } = await db.query(queryStr, categoryValue);
+
   if (rows.length === 0) {
     const result = await db.query(`SELECT * FROM categories WHERE slug = $1;`, [
       category,
@@ -136,5 +139,6 @@ exports.insertCommentToReview = async (review_id, postBody) => {
   `,
     [username, body, review_id],
   );
+
   return postedComment.rows[0];
 };

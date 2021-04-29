@@ -2,7 +2,7 @@ const {
   unixToSQLDateFormat,
   createReviewsRef,
   combineReviewCommentData,
-} = require("./data-manipulation");
+} = require("../db/utils/data-manipulation");
 
 // describe("unixToSQLDateFormat", () => {
 //   it("Should convert unix ts in seconds to date foramt", () => {

@@ -1,4 +1,3 @@
-const { request } = require("express");
 const {
   selectReviewByReviewId,
   updateReviewVotes,
@@ -25,6 +24,7 @@ exports.patchReviewVotes = (req, res, next) => {
     })
     .catch(next);
 };
+
 exports.getReviews = (req, res, next) => {
   const { order_by } = req.query;
   const { category } = req.query;
@@ -35,6 +35,7 @@ exports.getReviews = (req, res, next) => {
     })
     .catch(next);
 };
+
 exports.getCommentsByReviewId = (req, res, next) => {
   const { review_id } = req.params;
 
@@ -44,6 +45,7 @@ exports.getCommentsByReviewId = (req, res, next) => {
     })
     .catch(next);
 };
+
 exports.postCommentToReview = (req, res, next) => {
   const { review_id } = req.params;
   const { body } = req;
