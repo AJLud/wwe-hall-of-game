@@ -1,16 +1,8 @@
 const {
-  unixToSQLDateFormat,
   createReviewsRef,
   combineReviewCommentData,
+  unixToSQLDateFormat,
 } = require("../db/utils/data-manipulation");
-
-// describe("unixToSQLDateFormat", () => {
-//   it("Should convert unix ts in seconds to date foramt", () => {
-//     const expected = "2021-04-26 14:55:28";
-//     const actual = unixToSQLDateFormat(1619448928000);
-//     expect(actual).toBe(expected);
-//   });
-// });
 
 describe("createReviewsRef", () => {
   it("should return a single review_id & title lookup Obj when passed with an array with one item", () => {
@@ -30,8 +22,7 @@ describe("createReviewsRef", () => {
     ];
     const expected = [
       {
-        title: "Agricola",
-        review_id: 1,
+        Agricola: 1,
       },
     ];
 
@@ -78,9 +69,9 @@ describe("createReviewsRef", () => {
       },
     ];
     const expected = [
-      { title: "Agricola", review_id: 1 },
-      { title: "Jenga", review_id: 2 },
-      { title: "Ultimate Werewolf", review_id: 3 },
+      { Agricola: 1 },
+      { Jenga: 2 },
+      { "Ultimate Werewolf": 3 },
     ];
     const actual = createReviewsRef(inputReviews);
     expect(actual).toEqual(expected);
@@ -99,13 +90,13 @@ describe("combineReviewCommentData", () => {
         created_at: 1511354163389,
       },
     ];
-    const inputReviewRef = [{ title: "Jenga", review_id: 2 }];
+    const inputReviewRef = [{ Jenga: 2 }];
     const expected = [
       {
-        author: "happyamy2016",
+        created_by: "happyamy2016",
         review_id: 2,
         votes: 16,
-        created_at: unixToSQLDateFormat(1511354163389),
+        created_at: 1511354163389,
         body: "I loved this game too!",
       },
     ];
@@ -137,33 +128,35 @@ describe("combineReviewCommentData", () => {
       },
     ];
     const inputReviewRef = [
-      { title: "Agricola", review_id: 1 },
-      { title: "Jenga", review_id: 2 },
-      { title: "Ultimate Werewolf", review_id: 3 },
+      { Agricola: 1 },
+      { Jenga: 2 },
+      { "Ultimate Werewolf": 3 },
     ];
     const expected = [
       {
-        author: "tickle122",
-        review_id: 1,
-        votes: 3,
-        created_at: unixToSQLDateFormat(1610964545410),
         body: "My dog loved this game too!",
+        created_by: "tickle122",
+        votes: 3,
+        created_at: 1610964545410,
+        review_id: 1,
       },
+
       {
-        author: "happyamy2016",
-        review_id: 2,
-        votes: 16,
-        created_at: unixToSQLDateFormat(1511354163389),
         body: "I loved this game too!",
+        created_by: "happyamy2016",
+        votes: 16,
+        created_at: 1511354163389,
+        review_id: 2,
       },
       {
-        author: "weegembump",
-        review_id: 3,
-        votes: 10,
-        created_at: unixToSQLDateFormat(1610964588110),
         body: "I didn't know dogs could play games",
+        created_by: "weegembump",
+        votes: 10,
+        created_at: 1610964588110,
+        review_id: 3,
       },
     ];
+
     const actual = combineReviewCommentData(inputReviewRef, inputComments);
     expect(actual).toEqual(expected);
   });

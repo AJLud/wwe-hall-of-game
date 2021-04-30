@@ -9,13 +9,13 @@ exports.unixToSQLDateFormat = (unixTS) => {
 };
 
 exports.createReviewsRef = (reviews) => {
-  const refArray = reviews.map((review) => {
-    const reviewRef = {};
-    reviewRef.title = review.title;
-    reviewRef.review_id = review.review_id;
-    return reviewRef;
+  let reviewsRefArray = [];
+  reviews.forEach((review) => {
+    let reviewRef = {};
+    reviewRef[review.title] = review.review_id;
+    reviewsRefArray.push(reviewRef);
   });
-  return refArray;
+  return reviewsRefArray;
 };
 // grab only review_id and title
 
@@ -31,5 +31,21 @@ exports.filterResults = (reviews, comments) => {
   return output;
 };
 
+exports.combineReviewCommentData = (reviewLookUps, comments) => {
+  let combinedDataArray = [];
+  reviewLookUps.forEach((reviewLookUp) => {
+    const reviewLookUpEntries = Object.entries(reviewLookUp);
+    comments.forEach((comment) => {
+      if (comment.belongs_to === reviewLookUpEntries[0][0]) {
+        delete comment.belongs_to;
+        combinedDataArray.push({
+          ...comment,
+          review_id: reviewLookUpEntries[0][1],
+        });
+      }
+    });
+  });
+  return combinedDataArray;
+};
 // Refactor this: make func to create lookup
 // use lookup to match review_id to comment

@@ -316,16 +316,16 @@ describe("WWE Hall of Game", () => {
           );
         });
     });
-    test("status: 400, responds with error Bad Request if the username does not exist in the database", () => {
+    test("status: 404, responds with error Bad Request if the username does not exist in the database", () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({
           username: "doesntexist",
           body: "Mr Anderson? How can you write a review if you don't exist",
         })
-        .expect(400)
+        .expect(404)
         .then(({ body }) => {
-          expect(body.msg).toBe("Bad Request!");
+          expect(body.msg).toBe("Not Found!");
         });
     });
     test("status: 400, responds with error Bad Request if username or body is undefined", () => {
@@ -350,13 +350,13 @@ describe("WWE Hall of Game", () => {
           expect(body.msg).toBe("Bad Request!");
         });
     });
-    test("status: 400, responds with error Bad Request if the review id does not exist in the DB", () => {
+    test("status: 404, responds with error Bad Request if the review id does not exist in the DB", () => {
       return request(app)
         .post("/api/reviews/999/comments")
         .send({ username: "bainesface", body: "Farming is dead good innit" })
-        .expect(400)
+        .expect(404)
         .then(({ body }) => {
-          expect(body.msg).toBe("Bad Request!");
+          expect(body.msg).toBe("Not Found!");
         });
     });
   });
