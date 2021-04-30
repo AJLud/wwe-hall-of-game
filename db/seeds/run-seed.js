@@ -9,8 +9,7 @@ const devData = require("../data/development-data/index-dev");
 const { seed } = require("./seed");
 
 const runSeed = async () => {
-  let x = await seed(devData);
-  return x;
+  await seed(devData);
 };
 
 runSeed();
