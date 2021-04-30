@@ -93,6 +93,7 @@ describe("combineReviewCommentData", () => {
     const inputReviewRef = [{ Jenga: 2 }];
     const expected = [
       {
+        belongs_to: "Jenga",
         created_by: "happyamy2016",
         review_id: 2,
         votes: 16,
@@ -134,6 +135,7 @@ describe("combineReviewCommentData", () => {
     ];
     const expected = [
       {
+        belongs_to: "Agricola",
         body: "My dog loved this game too!",
         created_by: "tickle122",
         votes: 3,
@@ -142,6 +144,7 @@ describe("combineReviewCommentData", () => {
       },
 
       {
+        belongs_to: "Jenga",
         body: "I loved this game too!",
         created_by: "happyamy2016",
         votes: 16,
@@ -149,6 +152,7 @@ describe("combineReviewCommentData", () => {
         review_id: 2,
       },
       {
+        belongs_to: "Ultimate Werewolf",
         body: "I didn't know dogs could play games",
         created_by: "weegembump",
         votes: 10,

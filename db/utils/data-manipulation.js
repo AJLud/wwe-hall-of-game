@@ -37,7 +37,6 @@ exports.combineReviewCommentData = (reviewLookUps, comments) => {
     const reviewLookUpEntries = Object.entries(reviewLookUp);
     comments.forEach((comment) => {
       if (comment.belongs_to === reviewLookUpEntries[0][0]) {
-        delete comment.belongs_to;
         combinedDataArray.push({
           ...comment,
           review_id: reviewLookUpEntries[0][1],

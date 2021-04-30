@@ -4,6 +4,7 @@ const {
   unixToSQLDateFormat,
   filterResults,
   createReviewsRef,
+  combineReviewCommentData,
 } = require("./utils/data-manipulation.js");
 
 const insertCategoriesData = (categoriesData) => {
@@ -69,7 +70,12 @@ const insertReviewsAndCommentsData = (reviewsData, commentsData) => {
     reviewsDataArray,
   );
   return db.query(reviewsInsertQuery).then((reviews) => {
-    const combinedResults = filterResults(reviews.rows, commentsData);
+    const filteredReviews = createReviewsRef(reviews.rows);
+
+    const combinedResults = combineReviewCommentData(
+      filteredReviews,
+      commentsData,
+    );
     const commentDataArray = combinedResults.map((comment) => {
       return [
         comment.created_by,
