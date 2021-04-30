@@ -1,17 +1,12 @@
 const request = require("supertest");
 const db = require("../db/connection");
 const { seed } = require("../db/seeds/seed");
-const {
-  categoryData,
-  commentsData,
-  reviewsData,
-  usersData,
-} = require("../db/data/test-data/index-test");
+const data = require("../db/data/test-data/index-test");
 const app = require("../app");
 const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
-  return seed(categoryData, usersData, reviewsData, commentsData);
+  return seed(data);
 });
 
 afterAll(() => {
