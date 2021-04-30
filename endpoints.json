@@ -1,4 +1,5 @@
-{
+{ "WWE Hall of Game": "Welcome",
+
   "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api"
   },
@@ -25,10 +26,81 @@
           "owner": "happyamy2016",
           "review_img_url": "https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
           "category": "hidden-roles",
-          "created_at": 1610964101251,
-          "votes": 5
+          "created_at": "2020-12-10 10:30:45",
+          "votes": 5,
+          "comment_count": 3
+        }
+      ]
+    }
+  },
+  "GET /api/reviews/:review_id": {
+    "description": "serves a review with the specified review id",
+    "queries": [],
+    "exampleResponse": {
+      "review": 
+        {
+          "title": "WWE Smackdown - The BoardGame",
+          "designer": "Triple H",
+          "owner": "VinceMcMahon45",
+          "review_body": "I don't give a damn what these people want, but they want this!" ,
+          "review_img_url": "https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+          "category": "dexterity",
+          "created_at": "2020-12-10 10:30:45",
+          "votes": 400000,
+          "comment_count": 4
+        }
+      
+    }
+  },
+  "GET /api/reviews/:review_id/comments": {
+    "description": "serves all comments associated with the specified review id",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "body": "This game is the bottom line, cuz Stone Cold said so!",
+          "author": "StoneColdSteveyA",
+          "created_at": "2020-12-10 10:31:45",
+          "votes": 40
+        }
+      ]
+      
+    }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "updates a reviews votes to the specified review id and returns the updated review object",
+    "queries": [],
+    "ExampleJSONToSend": "{inc_votes: 10}",
+    "exampleResponse": {
+      "review": 
+        {
+          "title": "WWE Smackdown - The BoardGame",
+          "designer": "Triple H",
+          "owner": "VinceMcMahon45",
+          "review_body": "I don't give a damn what these people want, but they want this!" ,
+          "review_img_url": "https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+          "category": "dexterity",
+          "created_at": "2020-12-10 10:30:45",
+          "votes": 400010, 
+          "comment_count": 4
+        }
+      
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "posts a new comment to be associated with the specified review id, returns the newly created comment object",
+    "queries": [],
+    "exampleJSONTosend": "{validUsername: 'bainesface', body: 'Tres Cool'}",
+    "exampleResponse": {
+      "comments": [
+        {
+          "body": "Tres Cool",
+          "author": "bainesface",
+          "created_at": "2021-04-10 16:31:15",
+          "votes": 0
         }
       ]
     }
   }
 }
+

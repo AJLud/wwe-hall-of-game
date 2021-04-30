@@ -8,6 +8,7 @@ const {
   usersData,
 } = require("../db/data/test-data/index-test");
 const app = require("../app");
+const endpoints = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(categoryData, usersData, reviewsData, commentsData);
@@ -362,20 +363,11 @@ describe("WWE Hall of Game", () => {
   });
   describe("7.GET/api", () => {
     test("status: 200, responds with a JSON describing all available endpoints", () => {
-      const expectedApi = {
-        version: "0.1 ;)",
-        GET: {
-          "categories/": [""],
-          "reviews/": ["review_id", "review_id/comments"],
-        },
-        PATCH: { "reviews/": ["review_id"] },
-        POST: { "reviews/": ["review_id/comments"] },
-      };
       return request(app)
         .get("/api")
         .expect(200)
         .then(({ body }) => {
-          expect(body).toEqual(expectedApi);
+          expect(body).toEqual(endpoints);
         });
     });
   });
