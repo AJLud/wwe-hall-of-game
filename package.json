@@ -4,12 +4,14 @@
   "description": "bc-nc-games",
   "main": "index.js",
   "jest": {
-    "setupFilesAfterEnv": ["jest-sorted"]
+    "setupFilesAfterEnv": [
+      "jest-sorted"
+    ]
   },
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
-    "test": "jest",
+    "test": "jest --verbose",
     "dev": "nodemon listen.js",
     "seed:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) npm run seed",
     "start": "node listen.js"
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/northcoders/be-nc-games#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.6.0",

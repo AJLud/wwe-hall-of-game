@@ -76,6 +76,7 @@ const insertReviewsAndCommentsData = (reviewsData, commentsData) => {
       filteredReviews,
       commentsData,
     );
+
     const commentDataArray = combinedResults.map((comment) => {
       return [
         comment.created_by,

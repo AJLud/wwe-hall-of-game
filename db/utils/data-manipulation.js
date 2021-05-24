@@ -19,17 +19,17 @@ exports.createReviewsRef = (reviews) => {
 };
 // grab only review_id and title
 
-exports.filterResults = (reviews, comments) => {
-  let output = [];
-  reviews.forEach((review) => {
-    comments.forEach((comment) => {
-      if (review.title === comment.belongs_to) {
-        output.push({ ...review, ...comment });
-      }
-    });
-  });
-  return output;
-};
+// exports.filterResults = (reviews, comments) => {
+//   let output = [];
+//   reviews.forEach((review) => {
+//     comments.forEach((comment) => {
+//       if (review.title === comment.belongs_to) {
+//         output.push({ ...review, ...comment });
+//       }
+//     });
+//   });
+//   return output;
+// };
 
 exports.combineReviewCommentData = (reviewLookUps, comments) => {
   let combinedDataArray = [];

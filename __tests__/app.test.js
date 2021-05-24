@@ -121,7 +121,7 @@ describe("WWE Hall of Game", () => {
     });
     test("status: 404, responds with an Error Message NOT FOUND when parametric param is valid but does not exist in the DB", () => {
       return request(app)
-        .patch("/api/reviews/333")
+        .patch("/api/reviews/999")
         .send({ inc_votes: 300 })
         .expect(404)
         .then(({ body }) => {
@@ -220,7 +220,7 @@ describe("WWE Hall of Game", () => {
           expect(body.msg).toBe("Invalid Sort Query");
         });
     });
-    test("status: 400, responds with invalid sort query when passed with a disallowed query", () => {
+    test("status: 400, responds with invalid order_by query when passed with a disallowed query", () => {
       return request(app)
         .get("/api/reviews?order_by=chaos")
         .expect(400)
